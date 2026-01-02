@@ -1,4 +1,5 @@
-# motosolutions is a simple full-stack machine learning web application consisting of a frontend web interface and a Python backend that serves a trained ML model via an API.
+# MOTOSOLUTIONS 
+MotoSolutions is a simple full-stack machine learning web application consisting of a frontend web interface and a Python backend that serves a trained ML model via an API.
 
 📁 Project Structure
 motoadi/
