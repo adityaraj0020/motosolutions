@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>MotoSolutions — AI Vehicle Diagnosis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+body{font-family:Arial;background:#f4f6f8;padding:20px}
+.card{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:8px}
+label{font-weight:600;display:block;margin-top:10px}
+textarea,select,input{width:100%;padding:8px;margin-top:5px}
+button{margin-top:15px;padding:10px;background:#0ea5e9;color:#fff;border:none;border-radius:6px}
+.pred{background:#f9fafb;padding:10px;margin:10px 0;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>MotoSolutions — AI Vehicle Diagnosis</h2>
+<label>Vehicle Model</label>
+<select id="model"><option>R15 V2</option><option selected>R15 V3</option><option>R15 V4</option></select>
+<label>Symptoms</label>
+<textarea id="symptoms" rows="4"></textarea>
+<label>Fault Code</label>
+<input id="fault_code">
+<label>Upload Image/Video</label>
+<input type="file" id="file">
+<button id="submitBtn">Get Diagnosis</button>
+<div id="result"></div>
+</div>
+<script>
+document.getElementById("submitBtn").onclick=async()=>{
+const fd=new FormData();
+fd.append("model_name",model.value);
+fd.append("symptoms",symptoms.value);
+fd.append("fault_code",fault_code.value);
+if(file.files.length)fd.append("file",file.files[0]);
+const r=await fetch("http://localhost:8000/diagnose",{method:"POST",body:fd});
+const d=await r.json();
+result.innerHTML=d.predictions.map(p=>`<div class='pred'><b>${p.diagnosis}</b><br>${(p.confidence*100).toFixed(1)}%</div>`).join("");
+}
+</script>
+</body></html>
